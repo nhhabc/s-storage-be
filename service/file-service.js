@@ -1,20 +1,21 @@
 const mongoose = require("mongoose");
-const {Folder} = require("../model/folder");
+const {File} = require("../model/file");
 
 module.exports = {
-    createFolder: function (req, res) {
-        const folder = new Folder({
+    createFile: function (req, res) {
+        const file = new File({
             _id: mongoose.Types.ObjectId(),
-            name: req.body.name,
+            name: req.body.msg,
             createdDate: new Date(),
+            type: req.body.type
         });
 
-        folder
+        file
             .save()
             .then(() => {
                 res.status(201).json({
                     success: true,
-                    message: 'New folder created successfully',
+                    message: 'New file created successfully',
                 });
             })
             .catch((error) => {
@@ -26,12 +27,12 @@ module.exports = {
             });
     },
 
-    getAllFolder: function (req, res) {
-        Folder.find()
-            .select("_id name createdDate")
-            .then(folder => {
+    getAllFile: function (req, res) {
+        File.find()
+            .select("_id text createdDate")
+            .then(file => {
                 res.status(200).json({
-                    folder
+                    file
                 });
             })
             .catch(err => {
@@ -44,9 +45,9 @@ module.exports = {
     },
 
     // delete a course
-    deleteFolder: function (req, res) {
+    deleteFile: function (req, res) {
         const id = req.params.messageId;
-        Folder.findByIdAndRemove(id)
+        File.findByIdAndRemove(id)
             .exec()
             .then(() =>
                 res.status(204).json({

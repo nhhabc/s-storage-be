@@ -5,7 +5,9 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
 var indexRouter = require('./routes/message-router');
+const homeRouter = require('./routes/home-router');
 const folderRoute = require('./routes/folder-router')
+const fileRoute = require('./routes/file-router')
 const mongoose = require("mongoose");
 const cors = require("cors");
 
@@ -33,8 +35,10 @@ app.use(cors({
 
 }));
 
+app.use('/', homeRouter);
 app.use('/', indexRouter);
 app.use('/', folderRoute);
+app.use('/', fileRoute);
 
 
 // catch 404 and forward to error handler

@@ -1,10 +1,9 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-const File = require('./file')
 
 mongoose.Promise = global.Promise;
 
-const folderSchema = new Schema({
+const fileSchema = new Schema({
     _id: mongoose.Schema.Types.ObjectId,
     name: {
         type: String,
@@ -14,6 +13,9 @@ const folderSchema = new Schema({
         type: Date,
         required: true
     },
+    type: {
+        type: String,
+    }    
 });
 
-module.exports.Folder = mongoose.model('Folder', folderSchema);
+module.exports.File = mongoose.model('File', fileSchema);
