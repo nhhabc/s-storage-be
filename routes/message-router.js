@@ -4,11 +4,6 @@ const {createMessage} = require("../service/message-service");
 const {getAllMessage} = require("../service/message-service");
 var router = express.Router();
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  res.json({response: "Welcome to my app!"});
-});
-
 /* GET messages. */
 router.get('/msg', ((req, res) => getAllMessage(req, res)));
 
