@@ -10,6 +10,14 @@ const folderSchema = new Schema({
         type: String,
         required: true,
     },
+    _parentId: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: false
+    },
+    files: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "File"
+    },
     createdDate: {
         type: Date,
         required: true

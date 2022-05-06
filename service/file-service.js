@@ -1,14 +1,19 @@
 const mongoose = require("mongoose");
+const fs = require("fs");
+const path = require('path')
 const {File} = require("../model/file");
 
 module.exports = {
     createFile: function (req, res) {
         const file = new File({
             _id: mongoose.Types.ObjectId(),
-            name: req.body.msg,
-            createdDate: new Date(),
-            type: req.body.type
+            name: req.file.originalname,
+            path: req.file.path,
+            _parentFolder: req.body.folderId,
+            createdDate: new Date()
         });
+
+        console.log(file)
 
         file
             .save()

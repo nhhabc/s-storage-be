@@ -43,6 +43,23 @@ module.exports = {
             });
     },
 
+    getRootFolder: function (req, res) {
+        Folder.find()
+            .where("_parentId").equals(null)
+            .then(folder => {
+                res.status(200).json({
+                    folder
+                });
+            })
+            .catch(err => {
+                res.status(500).json({
+                    success: false,
+                    message: "Server error. Please try again.",
+                    error: err.message
+                });
+            });
+    },
+
     // delete a course
     deleteFolder: function (req, res) {
         const id = req.params.messageId;

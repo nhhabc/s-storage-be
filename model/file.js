@@ -9,13 +9,18 @@ const fileSchema = new Schema({
         type: String,
         required: true,
     },
+    path: {
+        type: String,
+        required: true,
+    },
+    _parentFolder: {
+        type: Schema.Types.ObjectId,
+        ref: 'Folder'
+    },
     createdDate: {
         type: Date,
         required: true
     },
-    type: {
-        type: String,
-    }    
 });
 
 module.exports.File = mongoose.model('File', fileSchema);
