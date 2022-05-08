@@ -4,7 +4,10 @@ const Schema = mongoose.Schema;
 mongoose.Promise = global.Promise;
 
 const fileSchema = new Schema({
-    _id: mongoose.Schema.Types.ObjectId,
+    id: {
+        type: Number,
+        required: true
+    },
     name: {
         type: String,
         required: true,
@@ -14,7 +17,7 @@ const fileSchema = new Schema({
         required: true,
     },
     _parentFolder: {
-        type: Schema.Types.ObjectId,
+        type: Number,
         ref: 'Folder'
     },
     createdDate: {

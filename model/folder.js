@@ -5,14 +5,18 @@ const File = require('./file')
 mongoose.Promise = global.Promise;
 
 const folderSchema = new Schema({
-    _id: mongoose.Schema.Types.ObjectId,
+    id: {
+        type:Number,
+        required:true,
+    },
     name: {
         type: String,
         required: true,
+        unique:true
     },
     _parentId: {
-        type: mongoose.Schema.Types.ObjectId,
-        required: false
+        type: Number,
+        default:null
     },
     files: {
         type: mongoose.Schema.Types.ObjectId,

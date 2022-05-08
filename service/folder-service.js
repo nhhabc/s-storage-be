@@ -3,12 +3,15 @@ const {Folder} = require("../model/folder");
 
 module.exports = {
     createFolder: function (req, res) {
+
         const folder = new Folder({
-            _id: mongoose.Types.ObjectId(),
+            id: req.body.id,
             name: req.body.name,
+            _parentId: req.body.parentId,
             createdDate: new Date(),
         });
 
+        console.log(folder)
         folder
             .save()
             .then(() => {
@@ -26,9 +29,24 @@ module.exports = {
             });
     },
 
+    getChildFolder: function (req, res) {
+        Folder.find({_parentId: req.params.childId})
+            .then(folder => {
+                res.status(200).json({
+                    folder
+                });
+            })
+            .catch(err => {
+                res.status(500).json({
+                    success: false,
+                    message: "Server error. Please try again.",
+                    error: err.message
+                });
+            });
+    },
+
     getAllFolder: function (req, res) {
         Folder.find()
-            .select("_id name createdDate")
             .then(folder => {
                 res.status(200).json({
                     folder
@@ -44,8 +62,7 @@ module.exports = {
     },
 
     getRootFolder: function (req, res) {
-        Folder.find()
-            .where("_parentId").equals(null)
+        Folder.find({_parentId : null})
             .then(folder => {
                 res.status(200).json({
                     folder
@@ -53,7 +70,7 @@ module.exports = {
             })
             .catch(err => {
                 res.status(500).json({
-                    success: false,
+                    status: false,
                     message: "Server error. Please try again.",
                     error: err.message
                 });
@@ -62,8 +79,8 @@ module.exports = {
 
     // delete a course
     deleteFolder: function (req, res) {
-        const id = req.params.messageId;
-        Folder.findByIdAndRemove(id)
+        const id = req.params.folderId;
+        Folder.findOneAndRemove({id})
             .exec()
             .then(() =>
                 res.status(204).json({
