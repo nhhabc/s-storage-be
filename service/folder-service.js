@@ -3,21 +3,19 @@ const {Folder} = require("../model/folder");
 
 module.exports = {
     createFolder: function (req, res) {
+        console.log(req.body)
 
         const folder = new Folder({
-            id: req.body.id,
             name: req.body.name,
-            _parentId: req.body.parentId,
+            _parentId: req.body._parentId,
             createdDate: new Date(),
         });
 
-        console.log(folder)
         folder
             .save()
-            .then(() => {
+            .then(folder => {
                 res.status(201).json({
-                    success: true,
-                    message: 'New folder created successfully',
+                    folder,
                 });
             })
             .catch((error) => {

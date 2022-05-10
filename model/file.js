@@ -5,8 +5,8 @@ mongoose.Promise = global.Promise;
 
 const fileSchema = new Schema({
     id: {
-        type: Number,
-        required: true
+        type: mongoose.Schema.Types.ObjectId,
+        required: false
     },
     name: {
         type: String,
@@ -17,8 +17,9 @@ const fileSchema = new Schema({
         required: true,
     },
     _parentFolder: {
-        type: Number,
-        ref: 'Folder'
+        type: mongoose.Schema.Types.ObjectId,
+        required: false,
+        default: null
     },
     createdDate: {
         type: Date,

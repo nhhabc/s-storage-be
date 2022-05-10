@@ -5,48 +5,62 @@ const {File} = require("../model/file");
 
 module.exports = {
     createFile: async function (req, res) {
-
         try {
+            console.log(req.body.folderId)
             // const newTour = new Tour({})
             // newTour.save()        
             const file = await File.create({
-                id: req.body.id,
                 name: req.file.originalname,
                 path: req.file.path,
                 _parentFolder: req.body.folderId,
                 createdDate: new Date()
             });
+            console.log(file)
             res.status(201).json({
-              status: 'success',
-              data: {
                 file
-              }
             });
-          } catch (err) {
+        } catch (err) {
             res.status(400).json({
-              status: 'fail',
-              message: err
+                status: 'fail',
+                message: err
             });
-          }
+        }
     },
 
     getAllFile: async function (req, res) {
-        console.log(req.params.folderId)
         try {
             const file = await File.find({_parentFolder: req.params.folderId});
-        
+
             res.status(200).json({
-              status: 'success',
-              data: {
-                file
-              }
+                status: 'success',
+                data: {
+                    file
+                }
             });
-          } catch (err) {
+        } catch (err) {
             res.status(404).json({
-              status: 'fail',
-              message: err
+                status: 'fail',
+                message: err
             });
-          }
+        }
+    },
+
+    getRootFile: async function (req, res) {
+        try {
+            const file = await File.find({_parentFolder: null});
+
+            res.status(200).json({
+                status: 'success',
+                data: {
+                    file
+                }
+            });
+        } catch (err) {
+            res.status(404).json({
+                status: 'fail',
+                message: err
+            });
+        }
     },
 
     // delete a course

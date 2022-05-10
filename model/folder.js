@@ -6,17 +6,18 @@ mongoose.Promise = global.Promise;
 
 const folderSchema = new Schema({
     id: {
-        type:Number,
-        required:true,
+        type: mongoose.Schema.Types.ObjectId,
+        required: false,
     },
     name: {
         type: String,
         required: true,
-        unique:true
+        unique: true
     },
     _parentId: {
-        type: Number,
-        default:null
+        type: mongoose.Schema.Types.ObjectId,
+        required: false,
+        default: null
     },
     files: {
         type: mongoose.Schema.Types.ObjectId,
