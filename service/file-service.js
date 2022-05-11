@@ -1,7 +1,7 @@
-const mongoose = require("mongoose");
 const fs = require("fs");
-const path = require('path')
 const {File} = require("../model/file");
+const path = require('path');
+const mime = require('mime');
 
 module.exports = {
     createFile: async function (req, res) {
@@ -15,7 +15,6 @@ module.exports = {
                 _parentFolder: req.body.folderId,
                 createdDate: new Date()
             });
-            console.log(file)
             res.status(201).json({
                 file
             });
@@ -29,7 +28,7 @@ module.exports = {
 
     getAllFile: async function (req, res) {
         try {
-            const file = await File.find({_parentFolder: req.params.folderId});
+            const file = await File.find({_parentFolder: req.query.folderId});
 
             res.status(200).json({
                 status: 'success',
@@ -37,6 +36,26 @@ module.exports = {
                     file
                 }
             });
+        } catch (err) {
+            res.status(404).json({
+                status: 'fail',
+                message: err
+            });
+        }
+    },
+
+    downloadFile: async function (req, res) {
+        const id = req.params.fileId;
+        try {
+            const file = await File.findById(id);
+            const filePath = file.path;
+
+            const filename = path.basename(filePath);
+            const mimetype = mime.lookup(filePath);
+
+            res.setHeader('Content-disposition', 'attachment; filename=' + filename);
+            res.setHeader('Content-type', mimetype);
+            res.download(filePath)
         } catch (err) {
             res.status(404).json({
                 status: 'fail',
@@ -66,7 +85,18 @@ module.exports = {
     // delete a course
     deleteFile: function (req, res) {
         const id = req.params.fileId;
-        File.findOneAndDelete({id})
+        File.findById(id)
+            .then(req => {
+                console.log(req)
+                const path = req.path;
+                fs.unlink(path, (err) => {
+                    if (err) {
+                        console.error(err)
+                        return
+                    }
+                })
+            })
+        File.findOneAndDelete(id)
             .exec()
             .then(() =>
                 res.status(204).json({
@@ -78,5 +108,6 @@ module.exports = {
                     success: false
                 })
             );
+
     }
 }

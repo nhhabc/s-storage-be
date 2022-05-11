@@ -78,7 +78,7 @@ module.exports = {
     // delete a course
     deleteFolder: function (req, res) {
         const id = req.params.folderId;
-        Folder.findOneAndRemove({id})
+        Folder.findOneAndDelete(id)
             .exec()
             .then(() =>
                 res.status(204).json({
