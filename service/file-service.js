@@ -6,7 +6,6 @@ const mime = require('mime');
 module.exports = {
     createFile: async function (req, res) {
         try {
-            console.log(req.body.folderId)
             // const newTour = new Tour({})
             // newTour.save()        
             const file = await File.create({
@@ -83,31 +82,29 @@ module.exports = {
     },
 
     // delete a course
-    deleteFile: function (req, res) {
-        const id = req.params.fileId;
-        File.findById(id)
-            .then(req => {
-                console.log(req)
-                const path = req.path;
-                fs.unlink(path, (err) => {
-                    if (err) {
-                        console.error(err)
-                        return
-                    }
-                })
-            })
-        File.findOneAndDelete(id)
-            .exec()
-            .then(() =>
-                res.status(204).json({
-                    success: true
-                })
-            )
-            .catch(err =>
-                res.status(500).json({
-                    success: false
-                })
-            );
+    deleteFile: async function (req, res) {
+        try {
+            const id = req.params.fileId;
 
+            const file = await File.findById(id);
+            console.log(file)
+            const filePath = file.path
+            await fs.rm(filePath, (err) => {
+                console.log(err)
+            })
+
+            const deleteFile = await File.findOneAndDelete(id);
+            res.status(200).json({
+                status: 'success',
+                data: {
+                    deleteFile
+                }
+            });
+        } catch (err) {
+            res.status(404).json({
+                status: 'fail',
+                message: err
+            });
+        }
     }
 }
