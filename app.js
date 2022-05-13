@@ -35,10 +35,12 @@ app.use(cors({
 
 }));
 
-app.use('/', homeRouter);
-app.use('/', indexRouter);
-app.use('/', folderRoute);
-app.use('/', fileRoute);
+const prefixPath = process.env.PREFIX_PATH ? process.env.PREFIX_PATH + "/" : "";
+
+app.use('/' + prefixPath, homeRouter);
+app.use('/' + prefixPath, indexRouter);
+app.use('/' + prefixPath, folderRoute);
+app.use('/' + prefixPath, fileRoute);
 
 
 // catch 404 and forward to error handler
