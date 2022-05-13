@@ -87,13 +87,13 @@ module.exports = {
             const id = req.params.fileId;
 
             const file = await File.findById(id);
-            console.log(file)
-            const filePath = file.path
+            const filePath = file.path;
+
+            const deleteFile = await File.findOneAndDelete({_id: id});
             await fs.rm(filePath, (err) => {
                 console.log(err)
-            })
+            });
 
-            const deleteFile = await File.findOneAndDelete(id);
             res.status(200).json({
                 status: 'success',
                 data: {

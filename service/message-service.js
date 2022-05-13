@@ -46,7 +46,7 @@ module.exports = {
     // delete a course
     deleteMessage: function (req, res) {
         const id = req.params.messageId;
-        Message.findByIdAndRemove(id)
+        Message.findByIdAndDelete(id)
             .exec()
             .then(() =>
                 res.status(204).json({

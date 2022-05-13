@@ -11,6 +11,6 @@ router.get('/msg', ((req, res) => getAllMessage(req, res)));
 router.post("/msg", ((req, res) => createMessage(req, res)));
 
 /* Delete message */
-router.delete('/msg/:courseId', ((req, res) => deleteMessage(req, res)));
+router.delete('/msg/:messageId', ((req, res) => deleteMessage(req, res)));
 
 module.exports = router;
