@@ -5,7 +5,7 @@ const {getAllMessage} = require("../service/message-service");
 var router = express.Router();
 
 /* GET messages. */
-router.get('/msg', ((req, res) => getAllMessage(req, res)));
+router.get("/msg", ((req, res) => getAllMessage(req, res)));
 
 /* Create message */
 router.post("/msg", ((req, res) => createMessage(req, res)));

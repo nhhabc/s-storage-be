@@ -8,6 +8,7 @@ var indexRouter = require('./routes/message-router');
 const homeRouter = require('./routes/home-router');
 const folderRoute = require('./routes/folder-router')
 const fileRoute = require('./routes/file-router')
+const userRoute = require('./routes/user-router')
 const mongoose = require("mongoose");
 const cors = require("cors");
 
@@ -41,6 +42,7 @@ app.use('/' + prefixPath, homeRouter);
 app.use('/' + prefixPath, indexRouter);
 app.use('/' + prefixPath, folderRoute);
 app.use('/' + prefixPath, fileRoute);
+app.use('/' + prefixPath, userRoute);
 
 
 // catch 404 and forward to error handler

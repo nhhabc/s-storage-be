@@ -13,6 +13,7 @@ module.exports = {
             .save()
             .then(() => {
                 res.status(201).json({
+                    data:message,
                     success: true,
                     message: 'New message created successfully',
                 });
@@ -28,7 +29,6 @@ module.exports = {
 
     getAllMessage: function (req, res) {
         Message.find()
-            .select("_id text createdDate")
             .then(messages => {
                 res.status(200).json({
                     messages
