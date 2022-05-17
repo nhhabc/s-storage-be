@@ -1,17 +1,11 @@
 const express = require('express')
-const {Signup, Login} = require("../service/auth-service");
+const {signup, login} = require("../service/auth-service");
 var router = express.Router();
 
 /* Create user */
-router.post("/signup", ((req, res) => Signup(req, res)));
+router.post("/signup", ((req, res) => signup(req, res)));
 
 /* Login */
-router.post("/login", ((req, res) => Login(req, res)));
-
-/* GET user. */
-router.get('/msg', ((req, res) => getAllMessage(req, res)));
-
-/* Delete user */
-router.delete('/msg/:messageId', ((req, res) => deleteMessage(req, res)));
+router.post("/login", ((req, res) => login(req, res)));
 
 module.exports = router;

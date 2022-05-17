@@ -19,6 +19,10 @@ const folderSchema = new Schema({
         required: false,
         default: null
     },
+    _owner: {
+        type: mongoose.Schema.Types.ObjectId,
+        required:true,
+    },
     files: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "File"

@@ -2,9 +2,12 @@ const fs = require("fs");
 const {File} = require("../model/file");
 const path = require('path');
 const mime = require('mime');
+const jwtDecode = require("jwt-decode");
 
 module.exports = {
     createFile: async function (req, res) {
+        const id = req.user._id;
+
         try {
             // const newTour = new Tour({})
             // newTour.save()        
@@ -12,7 +15,8 @@ module.exports = {
                 name: req.file.originalname,
                 path: req.file.path,
                 _parentFolder: req.body.folderId,
-                createdDate: new Date()
+                createdDate: new Date(),
+                _owner: id
             });
             res.status(201).json({
                 file
@@ -26,14 +30,13 @@ module.exports = {
     },
 
     getAllFile: async function (req, res) {
+        const id = req.user._id;
+
         try {
-            const file = await File.find({_parentFolder: req.query.folderId});
+            const file = await File.find({_parentFolder: req.query.folderId, _owner: id});
 
             res.status(200).json({
-                status: 'success',
-                data: {
-                    file
-                }
+                file
             });
         } catch (err) {
             res.status(404).json({
@@ -65,13 +68,11 @@ module.exports = {
 
     getRootFile: async function (req, res) {
         try {
-            const file = await File.find({_parentFolder: null});
+            const id = req.user._id;
+            const file = await File.find({_parentFolder: null, _owner: id});
 
             res.status(200).json({
-                status: 'success',
-                data: {
-                    file
-                }
+                file
             });
         } catch (err) {
             res.status(404).json({

@@ -21,6 +21,10 @@ const fileSchema = new Schema({
         required: false,
         default: null
     },
+    _owner: {
+        type: mongoose.Schema.Types.ObjectId,
+        required:true,
+    },
     createdDate: {
         type: Date,
         required: true

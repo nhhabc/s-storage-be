@@ -1,16 +1,17 @@
 const mongoose = require("mongoose");
 const {Folder} = require("../model/folder");
+const jwtdecode = require('jwt-decode')
 
 module.exports = {
     createFolder: function (req, res) {
-        console.log(req.body)
+        const id = req.user._id;
 
         const folder = new Folder({
             name: req.body.name,
             _parentId: req.body._parentId,
             createdDate: new Date(),
+            _owner: id,
         });
-
         folder
             .save()
             .then(folder => {
@@ -28,7 +29,9 @@ module.exports = {
     },
 
     getChildFolder: function (req, res) {
-        Folder.find({_parentId: req.params.childId})
+        const id = req.user._id;
+
+        Folder.find({_parentId: req.params.childId, _owner: id})
             .then(folder => {
                 res.status(200).json({
                     folder
@@ -60,7 +63,9 @@ module.exports = {
     },
 
     getRootFolder: function (req, res) {
-        Folder.find({_parentId : null})
+        const id = req.user._id;
+
+        Folder.find({_parentId : null, _owner: id})
             .then(folder => {
                 res.status(200).json({
                     folder

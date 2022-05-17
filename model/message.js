@@ -12,7 +12,11 @@ const messageSchema = new Schema({
     createdDate: {
         type: Date,
         required: true
-    }
+    },
+    _owner: {
+        type: mongoose.Schema.Types.ObjectId,
+        required:true,
+    },
 });
 
  module.exports.Message = mongoose.model('Message', messageSchema);
