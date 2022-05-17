@@ -2,13 +2,14 @@ var express = require('express');
 const {deleteMessage} = require("../service/message-service");
 const {createMessage} = require("../service/message-service");
 const {getAllMessage} = require("../service/message-service");
+const {protect} = require("../service/auth-service");
 var router = express.Router();
 
 /* GET messages. */
-router.get("/msg", ((req, res) => getAllMessage(req, res)));
+router.get("/msg", protect,((req, res) => getAllMessage(req, res)));
 
 /* Create message */
-router.post("/msg", ((req, res) => createMessage(req, res)));
+router.post("/msg", protect,((req, res) => createMessage(req, res)));
 
 /* Delete message */
 router.delete('/msg/:messageId', ((req, res) => deleteMessage(req, res)));

@@ -3,19 +3,20 @@ const {Message} = require("../model/message");
 
 module.exports = {
     createMessage: function (req, res) {
+        const id = req.user._id
+
         const message = new Message({
             _id: mongoose.Types.ObjectId(),
             text: req.body.msg,
-            createdDate: new Date()
+            createdDate: new Date(),
+            _owner: id
         });
 
         message
             .save()
             .then(() => {
                 res.status(201).json({
-                    data:message,
-                    success: true,
-                    message: 'New message created successfully',
+                    message
                 });
             })
             .catch((error) => {
@@ -28,7 +29,9 @@ module.exports = {
     },
 
     getAllMessage: function (req, res) {
-        Message.find()
+        const id = req.user._id
+
+        Message.find({_owner:id})
             .then(messages => {
                 res.status(200).json({
                     messages
