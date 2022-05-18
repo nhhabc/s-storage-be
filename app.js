@@ -1,18 +1,19 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+const createError = require('http-errors');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
 
-var indexRouter = require('./routes/message-router');
+const app = express();
+const mongoose = require("mongoose");
+const cors = require("cors");
+
+// Router
+const indexRouter = require('./routes/message-router');
 const homeRouter = require('./routes/home-router');
 const folderRoute = require('./routes/folder-router')
 const fileRoute = require('./routes/file-router')
 const userRoute = require('./routes/user-router')
-const mongoose = require("mongoose");
-const cors = require("cors");
-
-var app = express();
 
 // dotenv
 require('dotenv').config()
@@ -43,7 +44,6 @@ app.use('/' + prefixPath, indexRouter);
 app.use('/' + prefixPath, folderRoute);
 app.use('/' + prefixPath, fileRoute);
 app.use('/' + prefixPath, userRoute);
-
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

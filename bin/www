@@ -22,6 +22,36 @@ app.set('port', port);
 var server = http.createServer(app);
 
 /**
+ * Websocket
+ */
+/*
+const WebSocket = require("ws")
+const wss = new WebSocket.Server({server: server, path: "/wss"});
+wss.on('connection', ws => {
+  ws.on('message', message => {
+    ws.send(message)
+  })
+})
+ */
+
+const expressWs = require('express-ws')(app, server);
+app.ws('/wss', function(ws, req) {
+
+  ws.on('connection', function(msg) {
+    console.log("connted")
+  });
+
+  ws.on('open', function(msg) {
+    console.log("Asdasd");
+  });
+
+  ws.on('message', function(msg) {
+    console.log(msg);
+  });
+  console.log('socket');
+});
+
+/**
  * Listen on provided port, on all network interfaces.
  */
 

@@ -70,6 +70,24 @@ exports.login = async (req, res, next) => {
     }
 }
 
+exports.getUserInf = async function (req, res) {
+    const id = req.user._id;
+
+    try {
+        const user = await User.findById(id);
+        console.log(user)
+
+        res.status(200).json({
+            user
+        });
+    } catch (err) {
+        res.status(404).json({
+            status: 'fail',
+            message: err
+        });
+    }
+},
+
 exports.protect = catchAsync(async (req, res, next) => {
     // 1) Getting token and check of it's there
     let token;
