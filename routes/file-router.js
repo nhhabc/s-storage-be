@@ -1,17 +1,15 @@
 var express = require('express');
-
+const {uploadFile} = require("../service/file-service");
 const {deleteFile} = require("../service/file-service");
 const {createFile} = require("../service/file-service");
 const {getRootFile} = require("../service/file-service");
 const {getAllFile} = require("../service/file-service");
 const {downloadFile} = require("../service/file-service");
-const multer = require('multer')
 const {protect} = require("../service/auth-service");
-const upload = multer({dest: 'uploads/'})
 var router = express.Router();
 
 /* Create file */
-router.post("/file", protect, upload.single('file'), ((req, res) => createFile(req, res)));
+router.post("/file", protect, uploadFile, ((req, res) => createFile(req, res)));
 
 /* GET root file. */
 router.get('/file/root', protect, ((req, res) => getRootFile(req, res)));

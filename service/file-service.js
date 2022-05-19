@@ -1,12 +1,29 @@
 const fs = require("fs");
+const multer = require('multer')
 const {File} = require("../model/file");
 const path = require('path');
 const mime = require('mime');
-const jwtDecode = require("jwt-decode");
+
+const multerStorage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, 'uploads')
+    },
+    filename: (req, file, cb) => {
+        const ext = file.mimetype.split('/')[1];
+        cb(null, `user-${req.user.id}-${Date.now()}.${ext}`)
+    }
+});
+
+const upload = multer({
+    storage:multerStorage
+})
 
 module.exports = {
+    uploadFile: upload.single('file'),
+
     createFile: async function (req, res) {
         const id = req.user._id;
+        console.log(req.file)
 
         try {
             // const newTour = new Tour({})
