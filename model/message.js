@@ -13,6 +13,10 @@ const messageSchema = new Schema({
         type: Date,
         required: true
     },
+
+    user: {
+        type: String,
+    },
     _owner: {
         type: mongoose.Schema.Types.ObjectId,
         required:true,

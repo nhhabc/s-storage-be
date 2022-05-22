@@ -23,7 +23,6 @@ module.exports = {
 
     createFile: async function (req, res) {
         const id = req.user._id;
-        console.log(req.file)
 
         try {
             // const newTour = new Tour({})

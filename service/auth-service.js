@@ -106,7 +106,6 @@ exports.login = async (req, res, next) => {
 
         const user = await User.findOne({username}).select('+password')
         const correct = await user.correctPassword(password, user.password);
-        console.log(correct)
 
         if (!user || !correct) {
             res.status(401).json({
@@ -151,7 +150,6 @@ exports.getUserInf = async function (req, res) {
 
     try {
         const user = await User.findById(id);
-        console.log(user)
 
         res.status(200).json({
             user

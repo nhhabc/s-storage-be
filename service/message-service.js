@@ -9,6 +9,7 @@ module.exports = {
             _id: mongoose.Types.ObjectId(),
             text: req.body.msg,
             createdDate: new Date(),
+            user: req.user.username,
             _owner: id
         });
 
