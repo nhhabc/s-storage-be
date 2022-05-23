@@ -32,7 +32,7 @@ module.exports = {
     getAllMessage: function (req, res) {
         const id = req.user._id
 
-        Message.find({_owner:id})
+        Message.find()
             .then(messages => {
                 res.status(200).json({
                     messages
