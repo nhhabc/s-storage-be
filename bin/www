@@ -26,25 +26,41 @@ var server = http.createServer(app);
  */
 
 const {Server} = require('socket.io')
-const io = new Server(server)
+const io = new Server(server,{
+  cors: {
+    origin: "http://localhost:3000"
+  }
+})
 
+const jwt = require('jsonwebtoken')
+
+const users = [];
 io.on('connection', (socket) => {
   console.log(`We have a new connection`)
 
-  socket.on('join', ({username}) => {
-    console.log(username)
+  socket.on('join', (token) => {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    console.log('a user ' + decoded.id + ' connected')
+    users.push({userId: decoded.id})
+    console.log(users)
     // socket.emit('message', {user:'admin', text: `${username} has joined`})
-    socket.broadcast.emit('message', {user:'admin', text: `${username} has joined`})
+    // socket.broadcast.emit('message', {user:'admin', text: `Sbd has joined`})
   })
 
   socket.on('sendMessage', (data) => {
     console.log(data)
-    io.emit('message', data)
+    io.emit('message', {
+      data,
+      from: data.owner
+    })
   })
 
 
-  socket.on('Disconnect', ({username}) => {
-    socket.broadcast.emit('message', {user:'admin', text: `${username} has left`})
+  socket.on('Disconnect', (id) => {
+    console.log('user ' + id + ' disconnected')
+    // socket.broadcast.emit('message', {user:'admin', text: `${username} has left`})
+    users.filter(users => users.userId !== id);
+    console.log(users)
   })
 })
 

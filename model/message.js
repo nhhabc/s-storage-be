@@ -21,6 +21,9 @@ const messageSchema = new Schema({
         type: mongoose.Schema.Types.ObjectId,
         required:true,
     },
+    sendTo: {
+        type: mongoose.Schema.Types.ObjectId,
+    }
 });
 
  module.exports.Message = mongoose.model('Message', messageSchema);

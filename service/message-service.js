@@ -10,7 +10,8 @@ module.exports = {
             text: req.body.msg,
             createdDate: new Date(),
             user: req.user.username,
-            _owner: id
+            _owner: id,
+            sendTo: req.body.sendTo,
         });
 
         message
@@ -30,9 +31,10 @@ module.exports = {
     },
 
     getAllMessage: function (req, res) {
-        const id = req.user._id
+        const currentUser = req.user._id;
+        const friendUser = req.query.user
 
-        Message.find()
+        Message.find({$or: [{_owner: currentUser, sendTo: friendUser}, {_owner: friendUser, sendTo: currentUser}]})
             .then(messages => {
                 res.status(200).json({
                     messages

@@ -1,5 +1,5 @@
 const express = require('express')
-const {signup, login, loginSocial, socialSignup, checkUsername, getUserInf} = require("../service/auth-service");
+const {signup, login, loginSocial, socialSignup, checkUsername, getUserInf, getAllUser} = require("../service/auth-service");
 const {protect} = require("../service/auth-service");
 var router = express.Router();
 
@@ -20,5 +20,8 @@ router.get("/check/username", ((req, res) => checkUsername(req, res)));
 
 /* Get user's information */
 router.get("/user", protect, ((req, res) => getUserInf(req, res)));
+
+/* Get all user */
+router.get('/all-user',protect, ((req, res) => getAllUser(req, res)));
 
 module.exports = router;
