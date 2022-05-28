@@ -28,7 +28,7 @@ var server = http.createServer(app);
 const {Server} = require('socket.io')
 const io = new Server(server,{
   cors: {
-    origin: "http://localhost:3000"
+    origin: "https://s-storage.xyz/"
   }
 })
 
@@ -48,10 +48,10 @@ io.on('connection', (socket) => {
   })
 
   socket.on('sendMessage', (data) => {
-    console.log(data)
     io.emit('message', {
       data,
       from: data._owner,
+      to: data.sendTo
     })
   })
 
