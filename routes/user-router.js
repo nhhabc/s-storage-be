@@ -1,27 +1,25 @@
 const express = require('express')
-const {signup, login, loginSocial, socialSignup, checkUsername, getUserInf, getAllUser} = require("../service/auth-service");
+const {deleteAccount} = require("../service/user-service");
+const {updateUserPassword} = require("../service/user-service");
+const {updateUserInfo} = require("../service/user-service");
+const {getAllUser} = require("../service/user-service");
+const {getUserInf} = require("../service/user-service");
 const {protect} = require("../service/auth-service");
-var router = express.Router();
-
-/* Create user */
-router.post("/signup", ((req, res) => signup(req, res)));
-
-/* Create social user */
-router.post("/signup/social", ((req, res) => socialSignup(req, res)));
-
-/* Login Social */
-router.post("/login/social", ((req, res) => loginSocial(req, res)));
-
-/* Login */
-router.post("/login", ((req, res) => login(req, res)));
-
-/* User check */
-router.get("/check/username", ((req, res) => checkUsername(req, res)));
+const router = express.Router();
 
 /* Get user's information */
 router.get("/user", protect, ((req, res) => getUserInf(req, res)));
 
 /* Get all user */
-router.get('/all-user',protect, ((req, res) => getAllUser(req, res)));
+router.get('/all-user', protect, ((req, res) => getAllUser(req, res)));
+
+/* Update user info */
+router.put('/user/:userId', ((req, res) => updateUserInfo(req, res)));
+
+/* Delete account info */
+router.delete('/deleteAccount', protect,((req, res) => deleteAccount(req, res)));
+
+/* Update user password */
+router.put('/updatePassword', protect,((req, res) => updateUserPassword(req, res)));
 
 module.exports = router;

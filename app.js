@@ -1,4 +1,3 @@
-const createError = require('http-errors');
 const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
@@ -11,9 +10,11 @@ const cors = require("cors");
 // Router
 const indexRouter = require('./routes/message-router');
 const homeRouter = require('./routes/home-router');
-const folderRoute = require('./routes/folder-router')
-const fileRoute = require('./routes/file-router')
-const userRoute = require('./routes/user-router')
+const folderRouter = require('./routes/folder-router')
+const fileRouter = require('./routes/file-router')
+const authRouter= require('./routes/auth-router')
+const userRouter = require('./routes/user-router')
+
 
 // dotenv
 require('dotenv').config()
@@ -41,8 +42,9 @@ const prefixPath = process.env.PREFIX_PATH ? process.env.PREFIX_PATH + "/" : "";
 
 app.use('/' + prefixPath, homeRouter);
 app.use('/' + prefixPath, indexRouter);
-app.use('/' + prefixPath, folderRoute);
-app.use('/' + prefixPath, fileRoute);
-app.use('/' + prefixPath, userRoute);
+app.use('/' + prefixPath, folderRouter);
+app.use('/' + prefixPath, fileRouter);
+app.use('/' + prefixPath, authRouter);
+app.use('/' + prefixPath, userRouter);
 
 module.exports = app;

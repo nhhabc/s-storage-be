@@ -37,6 +37,7 @@ exports.socialSignup = async (req, res) => {
         const newUser = await User.create({
             email: req.body.email,
             username: req.body.name,
+            name:req.body.name,
             socialType: req.body.socialType
         })
 
@@ -144,39 +145,6 @@ exports.checkUsername = async function (req, res) {
         });
     }
 }
-
-exports.getUserInf = async function (req, res) {
-    const id = req.user._id;
-
-    try {
-        const user = await User.findById(id);
-
-        res.status(200).json({
-            user
-        });
-    } catch (err) {
-        res.status(404).json({
-            status: 'fail',
-            message: err
-        });
-    }
-}
-
-exports.getAllUser = async (req, res) => {
-    const currentUser = req.user._id
-    try {
-        const users = await User.find({_id: {$ne: currentUser}})
-        res.status(200).json({
-            users
-        });
-    } catch (err) {
-        res.status(404).json({
-            status: 'fail',
-            message: err
-        });
-    }
-}
-
 
     exports.protect = catchAsync(async (req, res, next) => {
         // 1) Getting token and check of it's there

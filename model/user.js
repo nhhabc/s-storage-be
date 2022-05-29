@@ -9,13 +9,15 @@ const userSchema = new mongoose.Schema({
     },
     email: {
         type: String,
-        required: [true, 'Please enter your email'],
+        required: false,
         unique: true,
+        default: null,
     },
     username: {
         type: String,
         required: [true, 'Please enter your username'],
         unique: true,
+        default: null,
     },
     socialType: {
         type: [Object.keys(SocialType)],
@@ -24,12 +26,13 @@ const userSchema = new mongoose.Schema({
     name: {
         type: String,
         required: false,
+        default: null,
     },
     password: {
         type: String,
         require: false,
         minLength: 6,
-        select:false
+        select:false,
     },
 })
 
